@@ -142,3 +142,20 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+
+
+
+.gitignore
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudio
+
+package-lock.json
+
+package.json
+
+node_modules
+
+.env
+.env.development.local
+.env.test.local 
+.env.production.local
+.env.local

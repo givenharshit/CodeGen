@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+
+
+.gitignore
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudio
+
+package-lock.json
+
+package.json
+
+.env
+.env.development.local
+.env.test.local 
+.env.production.local
+.env.local
