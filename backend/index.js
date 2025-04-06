@@ -9,6 +9,7 @@ import user from "./models/user.model.js";
 import {Project} from "./models/project.model.js";
 import * as ai from "./services/gemini.service.js";
 
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -17,6 +18,8 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
+
 
 io.use(async (socket, next) => {
   try {
