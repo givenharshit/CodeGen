@@ -1,6 +1,3 @@
-// Socket configuration for real-time communication using Socket.IO
-// This module initializes a socket connection, handles events, and provides methods to send and receive messages.
-
 import socket  from "socket.io-client";
 
 let socketInstance = null;
@@ -17,17 +14,6 @@ export const initializeSocket = (projectId) => {
             }
         });
 
-        // socketInstance.on("connect", () => {
-        //     console.log("Socket connected:", socketInstance.id);
-        // });
-
-        // socketInstance.on("connect_error", (err) => {
-        //     console.error("Socket connection error:", err);
-        // });
-
-        // socketInstance.on("disconnect", (reason) => {
-        //     console.warn(`Socket disconnected: ${reason}`);
-        // });
     }
     return socketInstance;
 };
@@ -47,10 +33,3 @@ export const sendMessage = (eventName, data) => {
     }
     socketInstance.emit(eventName, data);
 };
-
-// export const disconnectSocket = () => {
-//     if (socketInstance) {
-//         socketInstance.disconnect();
-//         socketInstance = null;
-//     }
-// };

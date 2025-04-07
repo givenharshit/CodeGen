@@ -6,7 +6,6 @@ import { ProjectList } from "../components/ProjectList.jsx";
 const Home = () => {
   const { user, setUser } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [formData, setFormData] = useState({
     projectName: "",
     description: "",
@@ -15,14 +14,10 @@ const Home = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Project Submitted: ", {
-      name: formData.projectName,
-      description: formData.description,
-    });
     axios
       .post("api/projects/create", {
         name: formData.projectName,
@@ -62,14 +57,16 @@ const Home = () => {
 
       {/* Project List */}
       <div className="projects grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
-        <ProjectList />
+        <ProjectList/>
       </div>
 
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Create New Project</h2>
+            <h2 className="text-xl font-bold mb-4 text-gray-800">
+              Create New Project
+            </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">

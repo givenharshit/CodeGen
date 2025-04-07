@@ -4,18 +4,22 @@ import axios from "../config/axios.js";
 
 export const ProjectList = () => {
   const navigate = useNavigate();
-
-  // Show Project on Home Screen
   const [projects, setProjects] = useState([]);
+
   useEffect(() => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
     axios
-      .get("/api/projects/all")
+      .get("/api/projects/all", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+      })
       .then((res) => {
         console.log(res.data.projects);
         setProjects(res.data.projects);
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error fetching projects:", err);
       });
   }, []);
 
