@@ -65,7 +65,6 @@ export const LeftSection = () => {
           )}
         </div>
       );
-
     } else if (msg.sender._id === "ai") {
       // Render Markdown for non-code AI responses
       return <Markdown>{msg.message}</Markdown>;
@@ -150,119 +149,145 @@ export const LeftSection = () => {
   }
 
   return (
-    
-      <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6">
-        {/* Left Section */}
-        <div className="w-full flex flex-col gap-6">
-          {/* Chat Section */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-md flex-grow">
-            {/* Header */}
-            <header className="flex justify-between px-4 w-full bg-white text-white rounded-t-lg border-b-2 border-gray-200 p-2">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 bg-white text-blue-500 px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                <i className="ri-user-add-line m-1 text-xl"></i>
-                <p>Add Collaborators</p>
-              </button>
-              <button
-                onClick={() => setIsSlidePanelOpen(!isSlidePanelOpen)}
-                className="p-2 bg-white text-blue-500 rounded-lg hover:bg-gray-100"
-              >
-                <i className="ri-group-line text-xl"></i>
-              </button>
-            </header>
-
-            {/* Message Panel */}
-            <div
-              ref={messageRef}
-              className="message-box h-96 w-full overflow-y-scroll overflow-x-hidden bg-white p-4 rounded-b-lg border border-gray-200"
+    <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row gap-6">
+      {/* Left Section */}
+      <div className="w-full flex flex-col gap-6">
+        {/* Chat Section */}
+        <div className="bg-gray-50 p-4 rounded-lg shadow-md flex-grow">
+          {/* Header */}
+          <header className="flex justify-between px-4 w-full bg-white text-white rounded-t-lg border-b-2 border-gray-200 p-2">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 bg-white text-blue-500 px-4 py-2 rounded-lg hover:bg-gray-100"
             >
-              {messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`message mb-4 flex flex-col max-w-full w-fit break-words transparent relative
-                     ${msg.sender._id === user.user._id ? "ml-auto" : ""}`}
-                >
-                  <small
-                    className={`text-xs text-gray-500 pl-2 ${
-                      msg.sender._id === user.user._id ? "ml-auto" : ""
-                    }`}
-                  >
-                    {msg.sender.email}
-                  </small>
+              <i className="ri-user-add-line m-1 text-xl"></i>
+              <p>Add Collaborators</p>
+            </button>
+            <button
+              onClick={() => setIsSlidePanelOpen(!isSlidePanelOpen)}
+              className="p-2 bg-white text-blue-500 rounded-lg hover:bg-gray-100"
+            >
+              <i className="ri-group-line text-xl"></i>
+            </button>
+          </header>
 
-                  <div
-                    className={`p-2 rounded-lg max-w-3/4 w-fit break-words mt-0.5 ${
-                      msg.sender._id === user.user._id
-                        ? "bg-green-100 ml-auto"
-                        : "bg-gray-100"
-                    }`}
+          {/* Slide Panel */}
+
+          {isSlidePanelOpen && (
+            <div
+              className={`fixed inset-y-0 right-0 w-64 bg-white shadow-lg z-50 p-4 transform transition-transform duration-300 ease-in-out ${
+                isSlidePanelOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <h2 className="text-lg font-semibold mb-4">Collaborators</h2>
+              <ul className="space-y-2">
+                {users.map((user) => (
+                  <li
+                    key={user._id}
+                    className="flex items-center justify-between"
                   >
-                    {renderMessageContent(msg)}
-                  </div>
+                    <span>{user.email}</span>
+                    <i className="ri-user-line text-xl"></i>
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => setIsSlidePanelOpen(false)}
+                className="mt-4 w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
+              >
+                Close
+              </button>
+            </div>
+          )}
+
+          {/* Message Panel */}
+          <div
+            ref={messageRef}
+            className="message-box h-96 w-full overflow-y-scroll overflow-x-hidden bg-white p-4 rounded-b-lg border border-gray-200"
+          >
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`message mb-4 flex flex-col max-w-full w-fit break-words transparent relative
+                     ${msg.sender._id === user.user._id ? "ml-auto" : ""}`}
+              >
+                <small
+                  className={`text-xs text-gray-500 pl-2 ${
+                    msg.sender._id === user.user._id ? "ml-auto" : ""
+                  }`}
+                >
+                  {msg.sender.email}
+                </small>
+
+                <div
+                  className={`p-2 rounded-lg max-w-3/4 w-fit break-words mt-0.5 ${
+                    msg.sender._id === user.user._id
+                      ? "bg-green-100 ml-auto"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  {renderMessageContent(msg)}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Input Section */}
+          <div className="mt-4 flex">
+            <input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              type="text"
+              placeholder="Enter message"
+              className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none"
+            />
+            <button
+              onClick={send}
+              className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 w-11/12 max-w-md">
+            <h2 className="text-xl font-semibold mb-4">Select a User</h2>
+            <div className="users-list flex flex-col gap-2 max-h-96 overflow-auto">
+              {users.map((user) => (
+                <div
+                  key={user._id}
+                  onClick={() => handleUserClick(user._id)}
+                  className={`p-2 flex items-center justify-between bg-gray-100 ${
+                    selectedUserId.includes(user._id) ? "bg-gray-300" : ""
+                  } rounded-lg cursor-pointer`}
+                >
+                  <span>{user.email}</span>
+                  <i className="ri-user-line text-xl"></i>
                 </div>
               ))}
             </div>
-
-            {/* Input Section */}
-            <div className="mt-4 flex">
-              <input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                type="text"
-                placeholder="Enter message"
-                className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none"
-              />
+            <div className="mt-4 flex gap-2">
               <button
-                onClick={send}
-                className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
+                onClick={() => setIsModalOpen(false)}
+                className="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
               >
-                Send
+                Close
+              </button>
+              <button
+                onClick={addProjectCollaborators}
+                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+              >
+                Add Collaborators
               </button>
             </div>
           </div>
         </div>
-
-        {/* Right Section */}
-
-        {/* Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg p-6 w-11/12 max-w-md">
-              <h2 className="text-xl font-semibold mb-4">Select a User</h2>
-              <div className="users-list flex flex-col gap-2 max-h-96 overflow-auto">
-                {users.map((user) => (
-                  <div
-                    key={user._id}
-                    onClick={() => handleUserClick(user._id)}
-                    className={`p-2 flex items-center justify-between bg-gray-100 ${
-                      selectedUserId.includes(user._id) ? "bg-gray-300" : ""
-                    } rounded-lg cursor-pointer`}
-                  >
-                    <span>{user.email}</span>
-                    <i className="ri-user-line text-xl"></i>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex gap-2">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={addProjectCollaborators}
-                  className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-                >
-                  Add Collaborators
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
+    </div>
   );
 };
 

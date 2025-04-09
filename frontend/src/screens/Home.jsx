@@ -1,11 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user.context.jsx";
 import axios from "../config/axios.js";
 import { ProjectList } from "../components/ProjectList.jsx";
 
 const Home = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reload, setReload] = useState(false); // State to trigger re-render
   const [formData, setFormData] = useState({
     projectName: "",
     description: "",
@@ -15,7 +16,6 @@ const Home = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -27,25 +27,20 @@ const Home = () => {
         console.log("Project Created: ", res.data);
         setIsModalOpen(false);
         setFormData({ projectName: "", description: "" });
+        setReload((prev) => !prev); // Toggle reload state to trigger re-render
       })
       .catch((err) => {
         console.log("Project Creation Failed: ", err);
       });
   };
 
-
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Welcome, {user.user?.email || "User"}!
-          </h1>
-        </div>
-
-        {/* New Project Button */}
+      <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Welcome, {user.user?.email || "User"}!
+        </h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
@@ -56,9 +51,7 @@ const Home = () => {
       </div>
 
       {/* Project List */}
-      <div className="projects grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
-        <ProjectList/>
-      </div>
+      <ProjectList reload={reload} /> {/* Pass reload state as a prop */}
 
       {/* Modal */}
       {isModalOpen && (
