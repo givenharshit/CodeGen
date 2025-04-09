@@ -84,6 +84,7 @@ io.on("connection", (socket) => {
   socket.join(socket.roomId);
 
   socket.on("project-message", async (data) => {
+    console.log(data);
     let { message, sender } = data;
     sender = await user.findOne({ _id: sender });
     socket.broadcast.to(socket.roomId).emit("project-message", data);

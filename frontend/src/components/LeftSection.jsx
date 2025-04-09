@@ -208,7 +208,7 @@ export const LeftSection = () => {
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`message mb-4 flex flex-col max-w-full w-fit break-words transparent relative
+                className={`message mb-4 flex flex-col max-w-full w-fit transparent relative
                      ${msg.sender._id === user.user._id ? "ml-auto" : ""}`}
               >
                 <small
@@ -220,7 +220,7 @@ export const LeftSection = () => {
                 </small>
 
                 <div
-                  className={`p-2 rounded-lg max-w-3/4 w-fit break-words mt-0.5 ${
+                  className={`p-2 rounded-lg w-fit max-w-3/4 mt-0.5 break-words ${
                     msg.sender._id === user.user._id
                       ? "bg-green-100 ml-auto"
                       : "bg-gray-100"
