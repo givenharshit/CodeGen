@@ -130,8 +130,8 @@ connectDB()
         throw err;
       });
 
-      server.listen(process.env.PORT || 8000, function () {
-        console.log(`SERVER IS RUNNING AT PORT : ${process.env.PORT || 8000}`);
+      server.listen(process.env.PORT || 3000, function () {
+        console.log(`SERVER IS RUNNING AT PORT : ${process.env.PORT || 3000}`);
       });
     } catch (error) {
       console.log("SERVER START ERROR:", error);
