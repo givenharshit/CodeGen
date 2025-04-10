@@ -25,4 +25,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/gemini', geminiRoutes);
 
+app.use('/', (_, res) => {
+  res.status(200).json({ message: 'Welcome to the Gemini API!' });
+});
+
 export default app;
